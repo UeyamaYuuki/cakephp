@@ -52,12 +52,10 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
 <body>
     <header>
         <div class="container text-center">
-            <a href="https://cakephp.org/" target="_blank" rel="noopener">
-                <img alt="CakePHP" src="https://cakephp.org/v2/img/logos/CakePHP_Logo.svg" width="350" />
-            </a>
             <h1>
-                ようこそ ケイクPHP <?php echo Configure::version() ?> Strawberry (🍓)
+                GET IP🍓
             </h1>
+            <?= 'あなたのIPアドレスは' . $ip . 'です' ?>
         </div>
     </header>
     <main class="main">

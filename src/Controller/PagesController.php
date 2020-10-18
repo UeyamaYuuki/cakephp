@@ -45,6 +45,8 @@ class PagesController extends AppController
      */
     public function display(string ...$path): ?Response
     {
+        $ip = $this->request->clientIp();
+        $this->set(compact('ip'));
         if (!$path) {
             return $this->redirect('/');
         }
