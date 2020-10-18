@@ -13,11 +13,8 @@
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  * @var \App\View\AppView $this
  */
-use Cake\Cache\Cache;
+
 use Cake\Core\Configure;
-use Cake\Core\Plugin;
-use Cake\Datasource\ConnectionManager;
-use Cake\Error\Debugger;
 use Cake\Http\Exception\NotFoundException;
 
 $this->disableAutoLayout();
