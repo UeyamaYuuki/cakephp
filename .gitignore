@@ -41,3 +41,5 @@ nbproject/*
 .vscode
 # Sass preprocessor
 .sass-cache/
+# favicon
+favicon.ico
