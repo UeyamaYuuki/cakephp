@@ -23,6 +23,7 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
 
 /*
  * The default class to use for all routes
@@ -72,6 +73,9 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * routes you want in your application.
      */
     $builder->fallbacks();
+});
+Router::prefix('Sample', function ($routes) {
+    $routes->fallbacks(DashedRoute::class);
 });
 
 /*
