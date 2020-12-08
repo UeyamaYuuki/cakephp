@@ -29,7 +29,7 @@ use Cake\View\Exception\MissingTemplateException;
  *
  * @link https://book.cakephp.org/4/en/controllers/pages-controller.html
  */
-class PagesController extends AppController
+class IpController extends AppController
 {
     /**
      * Displays a view
@@ -81,18 +81,13 @@ class PagesController extends AppController
         $this->autoRender = false;
         // $this->request->is('ajax') でAjax通信か判定する
         if ($this->request->is('ajax')) {
-            $post_data = $this->request->getData();
-            print_r($post_data);
-        }
-        $page = $this->Pages->newEmptyEntity();
-        if ($this->request->is('post')) {
-            $page = $this->Articles->patchEntity($page, $this->request->getData());
+            $post_data = implode($this->request->getData());
+            $saveArr['ip'] = $post_data;
+            $page = $this->Ips->newEmptyEntity();
+            $page = $this->Ips->patchEntity($page, $saveArr);
+            $this->Ips->save($page);  
             $this->$page;
-            if ($this->Pages->save($page)) { 
-                $this->Flash->success(__('Your article has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('Unable to add your article.'));
+            
         }
         $this->set('page', $page);
     }
