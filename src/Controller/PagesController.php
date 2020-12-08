@@ -77,20 +77,23 @@ class PagesController extends AppController
     }
     public function add()
     {
-        $this->log('ok');
-        $article = $this->Pages->newEmptyEntity();
+        
+        $this->autoRender = false;
+        // $this->request->is('ajax') でAjax通信か判定する
+        if ($this->request->is('ajax')) {
+            $post_data = $this->request->getData();
+            print_r($post_data);
+        }
+        $page = $this->Pages->newEmptyEntity();
         if ($this->request->is('post')) {
-            $article = $this->Articles->patchEntity($article, $this->request->getData());
-
-            // user_id の決め打ちは一時的なもので、あとで認証を構築する際に削除されます。
-            $article->user_id = 1;
-
-            if ($this->Articles->save($article)) {
+            $page = $this->Articles->patchEntity($page, $this->request->getData());
+            $this->$page;
+            if ($this->Pages->save($page)) { 
                 $this->Flash->success(__('Your article has been saved.'));
                 return $this->redirect(['action' => 'index']);
             }
             $this->Flash->error(__('Unable to add your article.'));
         }
-        $this->set('article', $article);
+        $this->set('page', $page);
     }
 }
