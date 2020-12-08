@@ -42,13 +42,13 @@ $cakeDescription = 'watchyou';
 
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,700" rel="stylesheet">
 
-    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home']) ?>
+    <?= $this->Html->css(['normalize.min', 'milligram.min', 'cake', 'home', 'ip']) ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
     <?= $this->Html->script('jquery-3.5.1.min.js'); ?>
-    <?= $this->Html->script('webroot/js/ip.js') ?>
+    <?= $this->Html->script('ip') ?>
 </head>
 
 <body>
@@ -72,14 +72,52 @@ $cakeDescription = 'watchyou';
                             </tr>
                             <tr>
                                 <td>IP</th>
-                                <td id="ipAdress"><?= $ip ?></td>
+                                <td id="ipAdress"><?= $yourIp ?></td>
                             </tr>
                         </table>
                         <br>
                         <?= $this->Form->button('保存', array(
-                            'onClick' => "save()"
+                            'onClick' => "saveIp()",
+                            'class' => "btn-save"
                         )) ?>
                         <br>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="column">
+                        <table>
+                            <tr>
+                                <th>ip</th>
+                                <th>作成日時</th>
+                            </tr>
+
+                            <!-- ここで、$articles クエリーオブジェクトを繰り返して、記事の情報を出力します -->
+
+                            <?php foreach ($ipArr as $ip) : ?>
+                                <tr>
+                                    <td>
+                                        <?= $ip->ip ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        $time = $ip->created;
+                                        $time->setTimeZone(new DateTimeZone('Asia/Tokyo'));
+                                        echo $time->format('Y-m-d H:i:s');
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?= $this->Form->button('編集', array(
+                                            'onClick' => "editIp()",
+                                            'class' => "btn-edit"
+                                        )) ?>
+                                        <?= $this->Form->button('削除', array(
+                                            'onClick' => "deleteIp($ip->id)",
+                                            'class' => "btn-delete"
+                                        )) ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </table>
                     </div>
                 </div>
 

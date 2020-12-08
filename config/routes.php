@@ -55,12 +55,8 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * to use (in this case, templates/Pages/home.php)...
      */
     $builder->connect('/save/*', ['controller' => 'Ips', 'action' => 'add', 'ip']);
-    $builder->connect('/*', ['controller' => 'Ips', 'action' => 'display', 'ip']);
-
-    /*
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
-    $builder->connect('/pages/*', ['controller' => 'Ips', 'action' => 'display']);
+    $builder->connect('/delete/*', ['controller' => 'Ips', 'action' => 'delete', 'ip']);
+    $builder->connect('/*', ['controller' => 'Ips', 'action' => 'index', 'ip']);
 
     /*
      * Connect catchall routes for all controllers.
