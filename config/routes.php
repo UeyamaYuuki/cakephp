@@ -51,8 +51,8 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, templates/Pages/home.php)...
      */
-    $builder->connect('/save/*', ['controller' => 'Ips', 'action' => 'add', 'home']);
-    $builder->connect('/*', ['controller' => 'Ips', 'action' => 'display', 'home']);
+    $builder->connect('/save/*', ['controller' => 'Ips', 'action' => 'add', 'ip']);
+    $builder->connect('/*', ['controller' => 'Ips', 'action' => 'display', 'ip']);
 
     /*
      * ...and connect the rest of 'Pages' controller's URLs.
