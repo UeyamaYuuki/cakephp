@@ -48,7 +48,7 @@ $cakeDescription = 'watchyou';
     <?= $this->fetch('css') ?>
     <?= $this->fetch('script') ?>
     <?= $this->Html->script('jquery-3.5.1.min.js'); ?>
-    <?= $this->Html->script('ip') ?>
+    <?= $this->Html->script('webroot/js/ip.js') ?>
 </head>
 
 <body>

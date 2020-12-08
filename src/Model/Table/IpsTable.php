@@ -12,5 +12,4 @@ class IpsTable extends Table
     {
         $this->addBehavior('Timestamp');
     }
-    
 }

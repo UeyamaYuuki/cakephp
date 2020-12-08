@@ -9,7 +9,7 @@ function save ()
         type: "POST",
         dataType: "json",
         data: {
-            ip: ip  
+            ip: ip
         }
     } )
-} 
+}

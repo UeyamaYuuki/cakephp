@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 /**
@@ -14,6 +15,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
@@ -49,7 +51,13 @@ class IpsController extends AppController
         if (!isset($ip)) {
             $ip = '不明';
         }
-        $this->set(compact('ip'));
+        $userAgentInfo =  $_SERVER['HTTP_USER_AGENT'];
+        $serverCgiVersion = $_SERVER['GATEWAY_INTERFACE'];
+        $serverIp = $_SERVER['SERVER_ADDR'];
+        $serverHostName = $_SERVER['SERVER_NAME'];
+        $serverRecognizeString = $_SERVER['SERVER_SOFTWARE'];
+        $serverProtocol = $_SERVER['SERVER_PROTOCOL'];
+        $this->set(compact('ip', 'userAgentInfo', 'serverCgiVersion', 'serverIp', 'serverHostName', 'serverRecognizeString', 'serverProtocol'));
         if (!$path) {
             return $this->redirect('/');
         }
@@ -77,17 +85,17 @@ class IpsController extends AppController
     }
     public function add()
     {
-        
         $this->autoRender = false;
+
         // $this->request->is('ajax') でAjax通信か判定する
+        $saveArr = [];
         if ($this->request->is('ajax')) {
             $post_data = implode($this->request->getData());
             $saveArr['ip'] = $post_data;
             $page = $this->Ips->newEmptyEntity();
             $page = $this->Ips->patchEntity($page, $saveArr);
-            $this->Ips->save($page);  
+            $this->Ips->save($page);
             $this->$page;
-            
         }
         $this->set('page', $page);
     }
