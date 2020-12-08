@@ -1,15 +1,15 @@
 
 function save ()
 {
-    var ipAdress = document.getElementById( "ipAdress" );
-    var ipAdress = ipAdress.textContent;
+    var ip = document.getElementById( "ipAdress" );
+    var ip = ipAdress.textContent;
 
     $.ajax( {
         url: "/save",
         type: "POST",
         dataType: "json",
         data: {
-            ipAdress: ipAdress
+            ip: ip  
         }
     } )
 } 
