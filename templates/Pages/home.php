@@ -54,7 +54,7 @@ $cakeDescription = 'CakePHP: the rapid development PHP framework';
     <header>
         <div class="container text-center">
             <h1>
-                GET IP
+                get ip
             </h1>
             <?= 'あなたのIPアドレスは' . $ip . 'です' ?>
         </div>
