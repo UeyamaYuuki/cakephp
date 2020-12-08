@@ -4,7 +4,7 @@ namespace App\Model\Entity;
 
 use Cake\ORM\Entity;
 
-class Page extends Entity
+class Ip extends Entity
 {
     protected
         $_accessible = [
