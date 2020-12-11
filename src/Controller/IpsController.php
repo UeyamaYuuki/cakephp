@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 
 /**
  * CakePHP(tm) : Rapid Development Framework (https://cakephp.org)
@@ -14,6 +13,7 @@ declare(strict_types=1);
  * @since     0.2.9
  * @license   https://opensource.org/licenses/mit-license.php MIT License
  */
+
 namespace App\Controller;
 
 use Cake\Core\Configure;
@@ -29,7 +29,7 @@ use Cake\View\Exception\MissingTemplateException;
  *
  * @link https://book.cakephp.org/4/en/controllers/pages-controller.html
  */
-class PagesController extends AppController
+class IpsController extends AppController
 {
     /**
      * Displays a view
@@ -43,13 +43,16 @@ class PagesController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
-    public function display(string ...$path): ?Response
+    public function index(string ...$path): ?Response
     {
-        $ip = $this->request->clientIp();
-        if (!isset($ip)) {
-            $ip = '不明';
+        $yourIp = $this->request->clientIp();
+        if (!isset($yourIp)) {
+            $yourIp = '不明';
         }
-        $this->set(compact('ip'));
+        $this->loadComponent('Paginator');
+        $ipArr = $this->Paginator->paginate($this->Ips->find());
+        $this->set(compact('yourIp', 'ipArr'));
+
         if (!$path) {
             return $this->redirect('/');
         }
@@ -73,6 +76,34 @@ class PagesController extends AppController
                 throw $exception;
             }
             throw new NotFoundException();
+        }
+    }
+    public function add()
+    {
+        $this->autoRender = false;
+
+        // $this->request->is('ajax') でAjax通信か判定する
+        $saveArr = [];
+        if ($this->request->is('ajax')) {
+            $post_data = implode($this->request->getData());
+            $saveArr['ip'] = $post_data;
+            $ip = $this->Ips->newEmptyEntity();
+            $ip = $this->Ips->patchEntity($ip, $saveArr);
+            $this->Ips->save($ip);
+        }
+    }
+    public function delete()
+    {
+
+        $this->autoRender = false;
+
+        // $this->request->is('ajax') でAjax通信か判定する
+        if ($this->request->is('ajax')) {
+            $this->request->allowMethod(['post', 'delete']);
+            $post_data = implode($this->request->getData());
+            $ips = $this->Ips->get($post_data);
+            $this->log($post_data);
+            $this->Ips->delete($ips);
         }
     }
 }

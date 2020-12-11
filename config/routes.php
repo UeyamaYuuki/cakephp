@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Routes configuration.
  *
@@ -23,6 +24,8 @@
 
 use Cake\Routing\Route\DashedRoute;
 use Cake\Routing\RouteBuilder;
+use Cake\Routing\Router;
+
 
 /*
  * The default class to use for all routes
@@ -41,6 +44,7 @@ use Cake\Routing\RouteBuilder;
  * inconsistently cased URLs when used with `:plugin`, `:controller` and
  * `:action` markers.
  */
+
 /** @var \Cake\Routing\RouteBuilder $routes */
 $routes->setRouteClass(DashedRoute::class);
 
@@ -50,12 +54,9 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * its action called 'display', and we pass a param to select the view file
      * to use (in this case, templates/Pages/home.php)...
      */
-    $builder->connect('/', ['controller' => 'Pages', 'action' => 'display', 'home']);
-
-    /*
-     * ...and connect the rest of 'Pages' controller's URLs.
-     */
-    $builder->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $builder->connect('/save/*', ['controller' => 'Ips', 'action' => 'add', 'ip']);
+    $builder->connect('/delete/*', ['controller' => 'Ips', 'action' => 'delete', 'ip']);
+    $builder->connect('/*', ['controller' => 'Ips', 'action' => 'index', 'ip']);
 
     /*
      * Connect catchall routes for all controllers.
@@ -71,6 +72,9 @@ $routes->scope('/', function (RouteBuilder $builder) {
      * routes you want in your application.
      */
     $builder->fallbacks();
+});
+Router::prefix('Sample', function ($routes) {
+    $routes->fallbacks(DashedRoute::class);
 });
 
 /*
