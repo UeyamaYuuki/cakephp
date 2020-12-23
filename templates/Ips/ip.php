@@ -76,6 +76,13 @@ $cakeDescription = 'watchyou';
                             </tr>
                         </table>
                         <br>
+                        <p>コメント</p>
+                        <?= $this->Form->input('comment', array(
+                            'type' => "text",
+                            'id' => "comment"
+                        )) ?>
+                        <br>
+                        <br>
                         <?= $this->Form->button('保存', array(
                             'onClick' => "saveIp()",
                             'class' => "btn-save"
@@ -89,6 +96,9 @@ $cakeDescription = 'watchyou';
                             <tr>
                                 <th>ip</th>
                                 <th>作成日時</th>
+                                <th>更新日時</th>
+                                <th>名前</th>
+                                <th>コメント</th>
                             </tr>
 
                             <!-- ここで、$articles クエリーオブジェクトを繰り返して、記事の情報を出力します -->
@@ -97,22 +107,68 @@ $cakeDescription = 'watchyou';
                                 <tr>
                                     <td>
                                         <?= $ip->ip ?>
+                                        <?= $this->Form->input('ip', array(
+                                            'type' => "text",
+                                            'id' => "ip$ip->id",
+                                            'default' => $ip->ip,
+                                            'style' => "display:none"
+                                        )) ?>
                                     </td>
                                     <td>
                                         <?php
-                                        $time = $ip->created;
-                                        $time->setTimeZone(new DateTimeZone('Asia/Tokyo'));
-                                        echo $time->format('Y-m-d H:i:s');
+                                        $createdTime = $ip->created;
+                                        $createdTime = $createdTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
+                                        echo $createdTime->format('Y-m-d H:i:s');
                                         ?>
                                     </td>
                                     <td>
+                                        <?php
+                                        $modifiedTime = $ip->modified;
+                                        if (isset($modifiedTime)) {
+                                            $modifiedTime = $modifiedTime->setTimeZone(new DateTimeZone('Asia/Tokyo'));
+                                            echo $modifiedTime->format('Y-m-d H:i:s');
+                                        } else {
+                                            echo '未更新';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?=
+                                            $ip->name
+                                        ?>
+                                        <?= $this->Form->input('name', array(
+                                            'type' => "text",
+                                            'id' => "text$ip->id",
+                                            'default' => $ip->name,
+                                            'style' => "display:none"
+                                        )) ?>
+                                    </td>
+                                    <td>
+                                        <?=
+                                            $ip->comment;
+                                        ?>
+                                        <?= $this->Form->input('comment', array(
+                                            'type' => "text",
+                                            'id' => "comment$ip->id",
+                                            'default' => $ip->comment,
+                                            'style' => "display:none"
+                                        )) ?>
+                                    </td>
+                                    <td>
                                         <?= $this->Form->button('編集', array(
-                                            'onClick' => "editIp()",
+                                            'onClick' => "editIp($ip->id)",
                                             'class' => "btn-edit"
                                         )) ?>
+
                                         <?= $this->Form->button('削除', array(
                                             'onClick' => "deleteIp($ip->id)",
                                             'class' => "btn-delete"
+                                        )) ?>
+                                        <?= $this->Form->button('更新', array(
+                                            'onClick' => "updateIp($ip->id)",
+                                            'id' => "updateIp$ip->id",
+                                            'class' => "btn-save",
+                                            'style' => "display:none"
                                         )) ?>
                                     </td>
                                 </tr>
