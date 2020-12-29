@@ -22,7 +22,6 @@ function saveIp ()
 }
 function deleteIp ( id )
 {
-    console.log( id );
 
     $.ajax( {
         url: "/delete",
