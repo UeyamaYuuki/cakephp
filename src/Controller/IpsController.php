@@ -78,18 +78,41 @@ class IpsController extends AppController
             throw new NotFoundException();
         }
     }
-    public function add()
+    public function save()
     {
         $this->autoRender = false;
-
         // $this->request->is('ajax') でAjax通信か判定する
         $saveArr = [];
         if ($this->request->is('ajax')) {
-            $post_data = implode($this->request->getData());
-            $saveArr['ip'] = $post_data;
+            $params = $this->request->getData();
+            $saveArr =
+                [
+                    'ip' => $params['ip'],
+                    'comment' => $params['comment']
+                ];
             $ip = $this->Ips->newEmptyEntity();
             $ip = $this->Ips->patchEntity($ip, $saveArr);
             $this->Ips->save($ip);
+        }
+    }
+    public function update()
+    {
+        $this->autoRender = false;
+        // $this->request->is('ajax') でAjax通信か判定する
+        $saveArr = [];
+        if ($this->request->is('ajax')) {
+            $params = $this->request->getData();
+            $this->request->allowMethod(['patch', 'post', 'put']);
+            $base = $this->Ips->get($params['id']);
+            $saveArr =
+                [
+                    'id' => $params['id'],
+                    'ip' => $params['updateIp'],
+                    'name' => $params['updateName'],
+                    'comment' => $params['updateText']
+                ];
+            $updateArr = $this->Ips->patchEntity($base, $saveArr);
+            $this->Ips->save($updateArr);
         }
     }
     public function delete()
