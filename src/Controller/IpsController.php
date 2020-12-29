@@ -21,6 +21,8 @@ use Cake\Http\Exception\ForbiddenException;
 use Cake\Http\Exception\NotFoundException;
 use Cake\Http\Response;
 use Cake\View\Exception\MissingTemplateException;
+use Cake\Event\EventInterface;
+use Exception;
 
 /**
  * Static content controller
@@ -43,8 +45,23 @@ class IpsController extends AppController
      *   be found and not in debug mode.
      * @throws \Cake\View\Exception\MissingTemplateException In debug mode.
      */
+    public function initialize(): void
+    {
+        parent::initialize();
+        $this->loadComponent('Security');
+    }
+    public function beforeFilter(EventInterface $event)
+    {
+        parent::beforeFilter($event);
+        $this->Security->csrfCheck = false;
+        $this->Security->validatePost = false;
+        $this->Security->setConfig('unlockedActions', ['save']);
+        $this->Security->setConfig('unlockedActions', ['update']);
+        $this->Security->setConfig('unlockedActions', ['delete']);
+    }
     public function index(string ...$path): ?Response
     {
+        $this->log('run');
         $yourIp = $this->request->clientIp();
         if (!isset($yourIp)) {
             $yourIp = '不明';
@@ -80,6 +97,7 @@ class IpsController extends AppController
     }
     public function save()
     {
+        $this->log('ha');
         $this->autoRender = false;
         // $this->request->is('ajax') でAjax通信か判定する
         $saveArr = [];
@@ -125,7 +143,6 @@ class IpsController extends AppController
             $this->request->allowMethod(['post', 'delete']);
             $post_data = implode($this->request->getData());
             $ips = $this->Ips->get($post_data);
-            $this->log($post_data);
             $this->Ips->delete($ips);
         }
     }
